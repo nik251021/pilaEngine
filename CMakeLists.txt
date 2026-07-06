@@ -18,12 +18,23 @@ set(GLFW_BUILD_DOCS OFF CACHE INTERNAL "")
 set(GLFW_INSTALL OFF CACHE INTERNAL "")
 
 FetchContent_MakeAvailable(glfw)
-# ------------------------------------------
 
+# ------------------------------------------
 find_package(OpenGL REQUIRED)
 
-include_directories(include)
+# 1. Автоматически собираем все файлы исходного кода (.cpp и .c)
+file(GLOB_RECURSE SOURCE_FILES 
+    "src/*.cpp"
+    "src/*.c"
+)
 
-add_executable(PilaEngine src/main.cpp src/glad.c)
+# 2. Создаем исполняемый файл
+add_executable(PilaEngine ${SOURCE_FILES})
 
+# 3. АВТОПОДКЛЮЧЕНИЕ ИНКЛЮДОВ:
+# Говорим CMake, что для PilaEngine папка "include" является корневой для заголовочных файлов.
+# Теперь внутри проекта можно писать #include "Window.h" или #include "PilaEngine/Log.h"
+target_include_directories(PilaEngine PRIVATE include)
+
+# 4. Линкуем библиотеки
 target_link_libraries(PilaEngine PRIVATE glfw OpenGL::GL)

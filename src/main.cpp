@@ -1,40 +1,38 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
 #include <iostream>
+#include <filesystem>
+
+#include "window.hpp"
+
+namespace fs = std::filesystem;
 
 int main(int argc, char* argv[]) {
-    if (glfwInit() == GLFW_FALSE) {
-        glfwTerminate();
-        std::cout << "Error in initialising glfw";
-        return 1;
-    }
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    fs::path pathToScene = argv[1];
+    std::cout << "Path to scene: " << pathToScene.string() << std::endl;
 
-    GLFWwindow* window = glfwCreateWindow(800, 600, "Hello pilaEngine", nullptr, nullptr);
-    if (window == NULL) {
-        glfwTerminate();
-        std::cout << "Error in creating window";
+    if (!glfwInit()) {
+        std::cerr << "Glfw cant initialize" << std::endl;
         return 1;
-    }
-    glfwMakeContextCurrent(window);
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        std::cout << "Failed to initialize GLAD" << std::endl;
         glfwTerminate();
-        return 1;
     }
 
-    std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
-    std::cout << "GPU: " << glGetString(GL_RENDERER) << std::endl;
+    window window(800,600, "Hello biden");
 
-    while (!glfwWindowShouldClose(window)) {
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        glfwPollEvents();
-        glfwSwapBuffers(window);
+    while (!window.shouldClose())
+    {
+        if (window.isKeyPressed(GLFW_KEY_ESCAPE)) {
+            std::cout << "Escape, stopping" << std::endl;
+            break;
+        }
+        if (window.isKeyPressed(GLFW_KEY_SPACE)) {
+            std::cout << "Ne pridumal" << std::endl;
+        }
+        window.pollEvents();
     }
     glfwTerminate();
+    std::cout << "Window was closed" << std::endl;
+
     return 0;
 }
