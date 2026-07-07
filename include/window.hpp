@@ -4,6 +4,8 @@
 #include <string>
 #include <iostream>
 
+#include "other.hpp"
+
 class window
 {
 private:
@@ -22,6 +24,7 @@ public:
 
     bool isKeyPressed(int keyCode);
     bool isMouseButtonPressed(int buttonCode);
+    vector2 getMousePos();
 
     void pollEvents();
 };

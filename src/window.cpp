@@ -18,6 +18,7 @@ bool window::createWindow(int sizeX, int sizeY, std::string name) {
         critError = true;
         return false;
     }
+    glfwSwapInterval(1);
 
     std::cout << "OpenGL Context Created: " << glGetString(GL_VERSION) << std::endl;
     return true;
@@ -37,7 +38,12 @@ bool window::isMouseButtonPressed(int buttonCode) {
     int state = glfwGetMouseButton(this->Window, buttonCode);
     return state == GLFW_PRESS | state == GLFW_REPEAT;
 }
+vector2 window::getMousePos() {
+    double posx, posy;
+    glfwGetCursorPos(this->Window, &posx, &posy);
 
+    return vector2{static_cast<float>(posx), static_cast<float>(posy)};
+}
 
 
 void window::pollEvents() {

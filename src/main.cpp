@@ -5,6 +5,7 @@
 #include <filesystem>
 
 #include "window.hpp"
+#include "other.hpp"
 
 namespace fs = std::filesystem;
 
@@ -20,15 +21,18 @@ int main(int argc, char* argv[]) {
 
     window window(800,600, "Hello biden");
 
+    Time gameTime;
+    gameTime.lastTime = glfwGetTime();
+
     while (!window.shouldClose())
     {
+        gameTime.update();
+        std::cout << gameTime.deltaTime << std::endl;
         if (window.isKeyPressed(GLFW_KEY_ESCAPE)) {
             std::cout << "Escape, stopping" << std::endl;
             break;
         }
-        if (window.isKeyPressed(GLFW_KEY_SPACE)) {
-            std::cout << "Ne pridumal" << std::endl;
-        }
+        std::cout << "Mouse X: [ " << window.getMousePos().x << " ] | Mouse Y: [ " << window.getMousePos().y << " ]" << std::endl;
         window.pollEvents();
     }
     glfwTerminate();
