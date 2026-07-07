@@ -27,4 +27,13 @@ public:
     vector2 getMousePos();
 
     void pollEvents();
+
+    ~window();
 };
+
+inline window::~window(){
+    if (this->Window) {
+        glfwDestroyWindow(this->Window);
+    }
+    glfwTerminate();
+}

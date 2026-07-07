@@ -7,6 +7,7 @@
 
 #include "window.hpp"
 #include "other.hpp"
+#include "shader.hpp"
 
 namespace fs = std::filesystem;
 
@@ -24,6 +25,10 @@ int main(int argc, char* argv[]) {
 
     window window(800,600, "Hello biden");
 
+    shader myShader(fs::path("shaders/vertex.glsl"), fs::path("shaders/fragment.glsl"));
+    std::filesystem::path vertPath = "shaders/vertex.glsl";
+    std::filesystem::path fragPath = "shaders/fragment.glsl";
+
     Time gameTime;
     gameTime.lastTime = glfwGetTime();
 
@@ -31,17 +36,16 @@ int main(int argc, char* argv[]) {
     {
         gameTime.update();
         double start = glfwGetTime();
-        std::cout << gameTime.deltaTime << std::endl;
+
         if (window.isKeyPressed(GLFW_KEY_ESCAPE)) {
             std::cout << "Escape, stopping" << std::endl;
             break;
         }
-        std::cout << "Mouse X: [ " << window.getMousePos().x << " ] | Mouse Y: [ " << window.getMousePos().y << " ]" << std::endl;
+        
         window.pollEvents();
         double duration = glfwGetTime() - start;
         if (duration < timePerFrame) {
             double sleepDuration = timePerFrame - duration;
-            std::cout << "Sleep" << std::endl;
             std::this_thread::sleep_for(std::chrono::duration<double>(sleepDuration));
         }
     }
