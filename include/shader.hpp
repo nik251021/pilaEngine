@@ -34,8 +34,3 @@ public:
     
     ~shader();
 };
-
-inline shader::~shader()
-{
-    glDeleteProgram(id);
-}

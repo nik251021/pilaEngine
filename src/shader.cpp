@@ -88,3 +88,7 @@ bool shader::createShader(const std::string& vertexShaderSrc, const std::string&
 
     return true;
 }   
+
+shader::~shader() {
+    glDeleteProgram(id);
+}
