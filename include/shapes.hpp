@@ -21,3 +21,18 @@ public:
     void bind() const;
     void unbind() const;
 };
+
+class quadMesh
+{
+private:
+    VAO VAO;
+    VBO VBO;
+    EBO EBO;
+public:
+    quadMesh(const glm::vec2& center, const glm::vec2& v1, const glm::vec2& v2, const glm::vec2& v3, const glm::vec2& v4, const glm::vec3& color);
+    ~quadMesh(){
+        
+    };
+    void bind() const;
+    void unbind() const;
+};

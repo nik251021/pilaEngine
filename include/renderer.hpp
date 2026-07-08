@@ -10,4 +10,5 @@ private:
 public:
     void clear() const;
     void drawTriangle(const triangle& shape, const shader& shader) const;
+    void drawQuad(const quadMesh& shape, const shader& shader) const;
 };

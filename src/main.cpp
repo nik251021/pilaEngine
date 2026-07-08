@@ -45,12 +45,13 @@ int main(int argc, char* argv[]) {
         glm::vec2(50.0f, -50.0f),
         glm::vec3(0.0f, 1.0f, 0.0f) 
     );
-    triangle myTriangle2(
+    quadMesh myQuad(
         glm::vec2(0.0f, 0.0f),
-        glm::vec2(0.0f, 50.0f),
-        glm::vec2(-50.0f, -50.0f),
-        glm::vec2(50.0f, -50.0f),
-        glm::vec3(0.5f, 0.5f, 0.0f) 
+        glm::vec2(-50.0f, -50.0f), //Лево-Низ
+        glm::vec2(-50.0f,  50.0f), //Лево-Верх
+        glm::vec2( 50.0f,  50.0f), //Право-Верх
+        glm::vec2( 50.0f, -50.0f), //Право-Низ
+        glm::vec3(1.0f, 1.0f, 1.0f)
     );
 
     Time gameTime;
@@ -62,7 +63,7 @@ int main(int argc, char* argv[]) {
     Camera2D camera(800.0f, 600.0f);
     float playerSpeed = 250.0f;
 
-    gTriangle staticTriangle(myTriangle2, glm::vec2(200.0f, 150.0f));
+    gQuad staticQuad(myQuad, glm::vec2(0.0f, 0.0f));
     //
     while (!window.shouldClose())
     {
@@ -84,7 +85,7 @@ int main(int argc, char* argv[]) {
         camera.setPosition(player.getPos());
         player.rotate(180 * gameTime.deltaTime);
         player.draw(myRenderer, myShader, camera.getViewProjection());
-        staticTriangle.draw(myRenderer, myShader, camera.getViewProjection());
+        staticQuad.draw(myRenderer, myShader, camera.getViewProjection());
         //
         window.swapBuffers();
 
