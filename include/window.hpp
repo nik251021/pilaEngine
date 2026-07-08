@@ -25,6 +25,12 @@ public:
     bool isKeyPressed(int keyCode);
     bool isMouseButtonPressed(int buttonCode);
     vector2 getMousePos();
+    
+    void swapBuffers() {
+        if (this->Window) {
+            glfwSwapBuffers(this->Window);
+        }
+    }
 
     void pollEvents();
 

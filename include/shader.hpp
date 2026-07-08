@@ -31,6 +31,8 @@ public:
     void setFloat(const std::string& name, float value) const {
         glUniform1f(glGetUniformLocation(this->id, name.c_str()), value);
     }
+    void bind() const;
+    void unbind() const;
     
     ~shader();
 };

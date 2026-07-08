@@ -1,4 +1,7 @@
 #pragma once
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 
 struct vector2
 {
@@ -15,4 +18,9 @@ struct Time {
         deltaTime = static_cast<float>(currentTime - lastTime);
         lastTime = currentTime;
     }
+};
+
+struct Vertex2D {
+    glm::vec2 pos;
+    glm::vec3 color;
 };

@@ -8,11 +8,11 @@ VAO::~VAO() {
     glDeleteVertexArrays(1, &this->id);
 }
 
-void VAO::bind() {
+void VAO::bind() const {
     glBindVertexArray(this->id);
 }
 
-void VAO::unbind() {
+void VAO::unbind() const {
     glBindVertexArray(0);
 }
 

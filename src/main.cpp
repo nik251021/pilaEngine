@@ -8,26 +8,37 @@
 #include "window.hpp"
 #include "other.hpp"
 #include "shader.hpp"
+#include "shapes.hpp"
+#include "renderer.hpp"
 
 namespace fs = std::filesystem;
 
 const double timePerFrame = 1.0/60.0;
 
 int main(int argc, char* argv[]) {
-    fs::path pathToScene = argv[1];
-    std::cout << "Path to scene: " << pathToScene.string() << std::endl;
+    if (argc > 1) {
+        fs::path pathToScene = argv[1];
+        std::cout << "Path to scene: " << pathToScene.string() << std::endl;
+    }
 
     if (!glfwInit()) {
         std::cerr << "Glfw cant initialize" << std::endl;
         return 1;
-        glfwTerminate();
     }
 
-    window window(800,600, "Hello biden");
+    window window(800, 600, "Hello biden");
 
     shader myShader(fs::path("shaders/vertex.glsl"), fs::path("shaders/fragment.glsl"));
-    std::filesystem::path vertPath = "shaders/vertex.glsl";
-    std::filesystem::path fragPath = "shaders/fragment.glsl";
+
+    renderer myRenderer;
+
+    triangle myTriangle(
+        glm::vec2(0.0f, 0.0f),
+        glm::vec2(0.0f, 0.5f),
+        glm::vec2(-0.5f, -0.5f),
+        glm::vec2(0.5f, -0.5f),
+        glm::vec3(0.0f, 1.0f, 0.0f) 
+    );
 
     Time gameTime;
     gameTime.lastTime = glfwGetTime();
@@ -36,19 +47,22 @@ int main(int argc, char* argv[]) {
     {
         gameTime.update();
         double start = glfwGetTime();
-
-        if (window.isKeyPressed(GLFW_KEY_ESCAPE)) {
-            std::cout << "Escape, stopping" << std::endl;
-            break;
-        }
         
         window.pollEvents();
+
+        myRenderer.clear();
+
+        myRenderer.drawTriangle(myTriangle, myShader);
+
+        window.swapBuffers();
+
         double duration = glfwGetTime() - start;
         if (duration < timePerFrame) {
             double sleepDuration = timePerFrame - duration;
             std::this_thread::sleep_for(std::chrono::duration<double>(sleepDuration));
         }
     }
+
     glfwTerminate();
     std::cout << "Window was closed" << std::endl;
 

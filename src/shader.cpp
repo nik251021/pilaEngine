@@ -87,7 +87,14 @@ bool shader::createShader(const std::string& vertexShaderSrc, const std::string&
     glDeleteShader(fragShader);
 
     return true;
-}   
+}
+
+void shader::bind() const{
+    glUseProgram(this->id);
+}
+void shader::unbind() const{
+    glUseProgram(0);
+}
 
 shader::~shader() {
     glDeleteProgram(id);

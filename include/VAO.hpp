@@ -6,12 +6,12 @@
 #include "EBO.hpp"
 
 struct VertexAttribute {
-    GLuint index;         // location в шейдере (например, layout(location = 0))
-    GLint size;           // Количество компонент (3 для x, y, z)
-    GLenum type;          // Тип данных (GL_FLOAT)
-    GLboolean normalized; // Нужно ли нормализовать (GL_FALSE)
-    GLsizei stride;       // Шаг до следующей вершины (размер всей структуры вершины в байтах)
-    const void* pointer;  // Смещение от начала структуры (offset)
+    GLuint index;
+    GLint size;
+    GLenum type;
+    GLboolean normalized;
+    GLsizei stride;
+    const void* pointer;
 };
 
 class VAO
@@ -24,8 +24,8 @@ public:
     VAO();
     ~VAO();
 
-    void bind();
-    void unbind();
+    void bind() const ;
+    void unbind() const ;
 
     void addBuffer(VBO &vbo, const std::vector<VertexAttribute>& attributes);
     void setIndexBuffer(EBO& ebo);
