@@ -5,10 +5,14 @@
 #include <filesystem>
 #include <thread>
 
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
 #include "window.hpp"
 #include "other.hpp"
 #include "shader.hpp"
 #include "shapes.hpp"
+#include "gameShapes.hpp"
 #include "renderer.hpp"
 
 namespace fs = std::filesystem;
@@ -43,6 +47,10 @@ int main(int argc, char* argv[]) {
     Time gameTime;
     gameTime.lastTime = glfwGetTime();
 
+    //Test
+    gTriangle player(myTriangle, glm::vec2(0.0f, 0.0f));
+    float playerSpeed = 1.5f;
+    //
     while (!window.shouldClose())
     {
         gameTime.update();
@@ -51,9 +59,18 @@ int main(int argc, char* argv[]) {
         window.pollEvents();
 
         myRenderer.clear();
+        //test
+        glm::vec2 moveOffset(0.0f);
 
-        myRenderer.drawTriangle(myTriangle, myShader);
+        if (window.isKeyPressed(GLFW_KEY_W) == true) moveOffset.y += playerSpeed * gameTime.deltaTime;
+        if (window.isKeyPressed(GLFW_KEY_S) == true) moveOffset.y -= playerSpeed * gameTime.deltaTime;
+        if (window.isKeyPressed(GLFW_KEY_A) == true) moveOffset.x -= playerSpeed * gameTime.deltaTime;
+        if (window.isKeyPressed(GLFW_KEY_D) == true) moveOffset.x += playerSpeed * gameTime.deltaTime;
 
+        player.move(moveOffset);
+        player.rotate(45 * gameTime.deltaTime);
+        player.draw(myRenderer, myShader);
+        //
         window.swapBuffers();
 
         double duration = glfwGetTime() - start;

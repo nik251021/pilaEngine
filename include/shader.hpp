@@ -7,6 +7,9 @@
 #include <filesystem>
 #include <iostream>
 
+#include "glm/glm.hpp"
+#include "glm/gtc/type_ptr.hpp"
+
 namespace fs = std::filesystem;
 
 class shader
@@ -23,14 +26,18 @@ public:
     shader(const std::string& vertexShader, const std::string& fragShader) {
         createShader(vertexShader, fragShader);
     }
-    
+
     void setInt(const std::string& name, int value) const {
         glUniform1i(glGetUniformLocation(this->id, name.c_str()), value);
     }
-
     void setFloat(const std::string& name, float value) const {
         glUniform1f(glGetUniformLocation(this->id, name.c_str()), value);
     }
+    void setMat4(const std::string& name, const glm::mat4& mat) const {
+        
+        glUniformMatrix4fv(glGetUniformLocation(this->id, name.c_str()), 1, GL_FALSE, glm::value_ptr(mat));
+    }
+
     void bind() const;
     void unbind() const;
     
