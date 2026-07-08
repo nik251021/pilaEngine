@@ -15,6 +15,8 @@
 #include "gameShapes.hpp"
 #include "renderer.hpp"
 
+#include "camera.hpp"
+
 namespace fs = std::filesystem;
 
 const double timePerFrame = 1.0/60.0;
@@ -38,10 +40,17 @@ int main(int argc, char* argv[]) {
 
     triangle myTriangle(
         glm::vec2(0.0f, 0.0f),
-        glm::vec2(0.0f, 0.5f),
-        glm::vec2(-0.5f, -0.5f),
-        glm::vec2(0.5f, -0.5f),
+        glm::vec2(0.0f, 50.0f),
+        glm::vec2(-50.0f, -50.0f),
+        glm::vec2(50.0f, -50.0f),
         glm::vec3(0.0f, 1.0f, 0.0f) 
+    );
+    triangle myTriangle2(
+        glm::vec2(0.0f, 0.0f),
+        glm::vec2(0.0f, 50.0f),
+        glm::vec2(-50.0f, -50.0f),
+        glm::vec2(50.0f, -50.0f),
+        glm::vec3(0.5f, 0.5f, 0.0f) 
     );
 
     Time gameTime;
@@ -49,7 +58,11 @@ int main(int argc, char* argv[]) {
 
     //Test
     gTriangle player(myTriangle, glm::vec2(0.0f, 0.0f));
-    float playerSpeed = 1.5f;
+    glm::vec2 moveOffset(0.0f);
+    Camera2D camera(800.0f, 600.0f);
+    float playerSpeed = 250.0f;
+
+    gTriangle staticTriangle(myTriangle2, glm::vec2(200.0f, 150.0f));
     //
     while (!window.shouldClose())
     {
@@ -68,8 +81,10 @@ int main(int argc, char* argv[]) {
         if (window.isKeyPressed(GLFW_KEY_D) == true) moveOffset.x += playerSpeed * gameTime.deltaTime;
 
         player.move(moveOffset);
-        player.rotate(45 * gameTime.deltaTime);
-        player.draw(myRenderer, myShader);
+        camera.setPosition(player.getPos());
+        player.rotate(180 * gameTime.deltaTime);
+        player.draw(myRenderer, myShader, camera.getViewProjection());
+        staticTriangle.draw(myRenderer, myShader, camera.getViewProjection());
         //
         window.swapBuffers();
 

@@ -16,7 +16,7 @@ public:
     void rotate(float degree);
     void setRotaion(float degree);
 
-    void draw(renderer& r, const shader& s) const;
+    void draw(renderer& r, const shader& s, const glm::mat4& viewProj) const;
 
     glm::vec2 getPos() const { return position; }
     float getRotation() const { return rotation; }
